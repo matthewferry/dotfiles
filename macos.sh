@@ -49,31 +49,12 @@ defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
 # Changes default location for screencaptures to ~/Documents
 defaults write com.apple.screencapture location -string "$HOME/Documents/"
 
-# Reorders the preferred order of Spotlight results
-# defaults write com.apple.spotlight orderedItems -array \
-#         '{"enabled" = 1;"name" = "APPLICATIONS";}' \
-#         '{"enabled" = 1;"name" = "SYSTEM_PREFS";}' \
-#         '{"enabled" = 1;"name" = "DIRECTORIES";}' \
-#         '{"enabled" = 1;"name" = "PDF";}' \
-#         '{"enabled" = 0;"name" = "FONTS";}' \
-#         '{"enabled" = 0;"name" = "DOCUMENTS";}' \
-#         '{"enabled" = 0;"name" = "MESSAGES";}' \
-#         '{"enabled" = 0;"name" = "CONTACT";}' \
-#         '{"enabled" = 0;"name" = "EVENT_TODO";}' \
-#         '{"enabled" = 0;"name" = "IMAGES";}' \
-#         '{"enabled" = 0;"name" = "BOOKMARKS";}' \
-#         '{"enabled" = 0;"name" = "MUSIC";}' \
-#         '{"enabled" = 0;"name" = "MOVIES";}' \
-#         '{"enabled" = 0;"name" = "PRESENTATIONS";}' \
-#         '{"enabled" = 0;"name" = "SPREADSHEETS";}' \
-#         '{"enabled" = 0;"name" = "SOURCE";}'
-
 # Terminal > Preferences > Profiles
 # Set default theme to my modified version of Basic with system colors for auto light/dark mode
 open "${PWD}/matthewferry.terminal"
 sleep 1 # Wait to make sure the theme is loaded
-defaults write com.apple.Terminal "Default Window Settings" -string "System color theme"
-defaults write com.apple.Terminal "Startup Window Settings" -string "System color theme"
+defaults write com.apple.Terminal "Default Window Settings" -string "matthewferry"
+defaults write com.apple.Terminal "Startup Window Settings" -string "matthewferry"
 
 # Restart affected apps like Dock and Finder
 for app in "Dock" "Finder" "Safari"; do
