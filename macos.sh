@@ -41,10 +41,6 @@ defaults write com.apple.Safari.SandboxBroker ShowDevelopMenu -bool true
 defaults write -g NSPreferredWebServices -string "{ NSWebServicesProviderWebSearch = { NSDefaultDisplayName = DuckDuckGo; NSProviderIdentifier = \"com.duckduckgo\"; }; }"
 defaults write com.apple.SafariServices SearchProviderIdentifierMigratedToSystemPreference -int 1
 
-# Finder > Preferences > General > Show items on Desktop
-# Shows external drives on Desktop
-defaults write com.apple.finder ShowExternalHardDrivesOnDesktop -bool true
-
 # Screencapture > Options > Save to…
 # Changes default location for screencaptures to ~/Documents
 defaults write com.apple.screencapture location -string "$HOME/Documents/"
