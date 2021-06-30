@@ -23,6 +23,7 @@ cask "slack"
 cask "superhuman"
 cask "tuple"
 cask "visual-studio-code"
+cask "zoom"
 
 # Install App Store stuffs
 mas "AdBlock", id: 1402042596
