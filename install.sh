@@ -32,27 +32,28 @@ install_brew() {
 
 configure_git() {
   info "Configuring git"
-  brew install --quiet git
-  question "Your full name:"
-  read -e GIT_NAME
-  question 'Your email:'
-  read -e GIT_EMAIL
+#   brew install --quiet git
+#   question "Your full name:"
+#   read -e GIT_NAME
+#   question 'Your email:'
+#   read -e GIT_EMAIL
   question "Your GitHub username:"
   read -e GITHUB_USERNAME
-  question "Your GitHub PAT for auth:"
-  read -e GITHUB_TOKEN
-  git config --global user.name "${GIT_NAME}"
-  git config --global user.email "${GIT_EMAIL}"
-  git config --global github.user "${GITHUB_USERNAME}"
-  git config --global credential.helper "${GIT_CREDENTIAL}"
-  git config --global push.default simple
-  git config --global core.excludesfile "${HOME}/.gitignore"
-  printf "protocol=https\\nhost=github.com\\n" | git credential reject
-  printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
-        "${GITHUB_USERNAME}" "${GITHUB_TOKEN}" | git credential approve
+#   question "Your GitHub PAT for auth:"
+#   read -e GITHUB_TOKEN
+  
+#   git config --global user.name "${GIT_NAME}"
+#   git config --global user.email "${GIT_EMAIL}"
+#   git config --global github.user "${GITHUB_USERNAME}"
+#   git config --global credential.helper "${GIT_CREDENTIAL}"
+#   git config --global push.default simple
+#   git config --global core.excludesfile "${HOME}/.gitignore"
+#   printf "protocol=https\\nhost=github.com\\n" | git credential reject
+#   printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
+#         "${GITHUB_USERNAME}" "${GITHUB_TOKEN}" | git credential approve
   success "Git configured"
 }
-# configure_git
+configure_git
 
 congigure_dotfiles() {
   info "Symlinking dotfiles"
@@ -69,7 +70,7 @@ congigure_dotfiles() {
   ln -s "${PWD}/.vscode/settings.json" "${VSCODE_SETTINGS_PATH}/Code/User/settings.json"
   success "Symlinked vscode settings to ${VSCODE_SETTINGS_PATH}"
 }
-# congigure_dotfiles
+congigure_dotfiles
 
 bundle_install() {
   info "Installing formulae, casks, and apps"
