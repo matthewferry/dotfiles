@@ -28,29 +28,29 @@ install_brew() {
   brew update --quiet
   success "Homebrew installed"
 }
-# install_brew
+install_brew
 
 configure_git() {
   info "Configuring git"
-#   brew install --quiet git
-#   question "Your full name:"
-#   read -e GIT_NAME
-#   question 'Your email:'
-#   read -e GIT_EMAIL
+  brew install --quiet git
+  question "Your full name:"
+  read -e GIT_NAME
+  question 'Your email:'
+  read -e GIT_EMAIL
   question "Your GitHub username:"
   read -e GITHUB_USERNAME
-#   question "Your GitHub PAT for auth:"
-#   read -e GITHUB_TOKEN
+  question "Your GitHub PAT for auth:"
+  read -e GITHUB_TOKEN
   
-#   git config --global user.name "${GIT_NAME}"
-#   git config --global user.email "${GIT_EMAIL}"
-#   git config --global github.user "${GITHUB_USERNAME}"
-#   git config --global credential.helper "${GIT_CREDENTIAL}"
-#   git config --global push.default simple
-#   git config --global core.excludesfile "${HOME}/.gitignore"
-#   printf "protocol=https\\nhost=github.com\\n" | git credential reject
-#   printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
-#         "${GITHUB_USERNAME}" "${GITHUB_TOKEN}" | git credential approve
+  git config --global user.name "${GIT_NAME}"
+  git config --global user.email "${GIT_EMAIL}"
+  git config --global github.user "${GITHUB_USERNAME}"
+  git config --global credential.helper "${GIT_CREDENTIAL}"
+  git config --global push.default simple
+  git config --global core.excludesfile "${HOME}/.gitignore"
+  printf "protocol=https\\nhost=github.com\\n" | git credential reject
+  printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
+    "${GITHUB_USERNAME}" "${GITHUB_TOKEN}" | git credential approve
   success "Git configured"
 }
 configure_git
@@ -81,7 +81,7 @@ bundle_install() {
   brew bundle check --global || brew bundle --global
   success "Installed from Brewfile"
 }
-# bundle_install
+bundle_install
 
 if [ -n "$MACOS" ]; then
   setup_macOS_preferences() {
@@ -89,7 +89,7 @@ if [ -n "$MACOS" ]; then
     source "${PWD}/macos.sh"
     success "macOS defaults set"
   }
-  # setup_macOS_preferences
+  setup_macOS_preferences
 fi
 
 success "Install complete"
