@@ -28,6 +28,24 @@ defaults write com.apple.dock show-recents -bool false
 # Automatically hide/show Menu Bar
 defaults write -g _HIHideMenuBar -bool true
 
+# System Preferences > Security & Privacy > General
+# Require password immediately after sleep or screensaver
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+# System Preferences > Security & Privacy > Firewall
+# Turn firewall on
+sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
+sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist 2>/dev/null
+
+# System Preferences > Security & Privacy > Filevault
+# Enable FileVault and output the recovery key
+sudo fdesetup enable -user "${USER}" | tee ~/Desktop/"FileVault Recovery Key.txt"
+
+# Safari > Disable Java
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool false
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabledForLocalFiles -bool false
+
 # Safari > View > Hide/Show Favorites Bar
 # Hides Safari’s favorites/bookmarks bar by default
 defaults write com.apple.Safari ShowFavoritesBar -bool false
@@ -43,7 +61,7 @@ defaults write com.apple.SafariServices SearchProviderIdentifierMigratedToSystem
 
 # Screencapture > Options > Save to…
 # Changes default location for screencaptures to ~/Documents
-defaults write com.apple.screencapture location -string "$HOME/Documents/"
+defaults write com.apple.screencapture location -string "${HOME}/Documents/"
 
 # Terminal > Preferences > Profiles
 # Set default theme to my modified version of Basic with system colors for auto light/dark mode
@@ -53,17 +71,17 @@ defaults write com.apple.Terminal "Default Window Settings" -string "matthewferr
 defaults write com.apple.Terminal "Startup Window Settings" -string "matthewferry"
 
 # Restart affected apps like Dock and Finder
-for app in "Dock" "Finder" "Safari"; do
-  killall "${app}" > /dev/null 2>&1
+for APP in "Dock" "Finder" "Safari"; do
+  killall "${APP}" > /dev/null 2>&1
 done
 
 # Restart for some system changes to take effect
-echo -e "Some of these changes require you to restart.\n"
-echo -ne "\033[1;34mWould you like to restart now? (y/n):\033[0m "
+printf "\r\n\033[00;34m→ Some of these changes require you to restart.…\033[0m\n"
+printf "\033[1;33m? Would you like to restart now? (y/n):\033[0m "
 read -r
 
 shopt -s nocasematch
-if [[ "$REPLY" =~ y[es]? ]]; then
+if [[ "${REPLY}" =~ y[es]? ]]; then
   for i in {03..01}; do
     echo -en "\rRestarting in $i..."
     sleep 1

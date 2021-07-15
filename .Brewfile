@@ -2,9 +2,9 @@
 brew "clojure"
 brew "gh"
 brew "git"
-brew "java"
 brew "mas"
 brew "nodenv"
+brew "openjdk"
 brew "tmux"
 
 # Install apps
@@ -17,6 +17,7 @@ cask "kap"
 cask "loom"
 cask "loopback"
 cask "muzzle"
+cask "openemu"
 cask "qlab"
 cask "sim-daltonism"
 cask "slack"
@@ -35,5 +36,5 @@ mas "Logic Pro", id: 634148309
 mas "MainStage", id: 634159523
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
-mas "Sprinkles", id: 1500209074
-mas "Xcode", id: 497799835
+# mas "Sprinkles", id: 1500209074
+# mas "Xcode", id: 497799835
