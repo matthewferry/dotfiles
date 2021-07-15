@@ -65,10 +65,10 @@ congigure_dotfiles() {
     success "Symlinked ${LINK} to ${HOME}"
   done
   
-  info "Symlinking vscode settings"
-  rm "${VSCODE_SETTINGS_PATH}/Code/User/settings.json"
-  ln -s "${PWD}/.vscode/settings.json" "${VSCODE_SETTINGS_PATH}/Code/User/settings.json"
-  success "Symlinked vscode settings to ${VSCODE_SETTINGS_PATH}"
+#   info "Symlinking vscode settings"
+#   rm "${VSCODE_SETTINGS_PATH}/Code/User/settings.json"
+#   ln -s "${PWD}/.vscode/settings.json" "${VSCODE_SETTINGS_PATH}/Code/User/settings.json"
+#   success "Symlinked vscode settings to ${VSCODE_SETTINGS_PATH}"
 }
 congigure_dotfiles
 
