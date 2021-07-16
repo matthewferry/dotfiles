@@ -48,6 +48,7 @@ configure_git() {
 
   question "Your GitHub PAT for auth:"
   read  -s -p ' ' -e GITHUB_TOKEN
+  echo '\r'
 
   # Add configurations
   git config --global user.name "${GIT_NAME}"
