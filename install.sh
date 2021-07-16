@@ -32,7 +32,6 @@ install_brew
 
 configure_git() {
   info "Configuring git"
-  brew install --quiet git
   question "Your full name:"
   read -e GIT_NAME
   question 'Your email:'
