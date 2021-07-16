@@ -11,7 +11,7 @@ fi
 
 # Pretty logs
 info() {
-  printf "\r\n\e[01;34m→ \e[39m$1\e[0m \n"
+  printf "\r\e[01;34m→ \e[39m$1\e[0m \n"
 }
 
 success() {
@@ -19,7 +19,7 @@ success() {
 }
 
 question() {
-  printf "\e[01;33m? \e[39m$1\e[0m"
+  printf "\r\e[01;33m? \e[39m$1\e[0m"
 }
 
 # Install Homebrew
@@ -66,11 +66,13 @@ configure_git() {
 configure_git
 
 configure_dotfiles() {
-  info "Cloning dotfiles repository…"
+  info "Configuring dotfiles…"
 
   if ! [ -d "${HOME}/.dotfiles" ]; then
+    info "Cloning dotfiles repository…"
     git clone https://github.com/${GITHUB_USERNAME}/dotfiles ~/.dotfiles
   else
+    info "Updating dotfiles repository…"
     cd ~/.dotfiles
     git pull --rebase --autostash
   fi
@@ -83,6 +85,8 @@ configure_dotfiles() {
       success "Symlinked ${LINK} to ${HOME}"
     fi
   done
+
+  success "Dotfiles configured"
 }
 configure_dotfiles
 
@@ -98,7 +102,7 @@ bundle_install() {
   echo 'Press any key to continue'
   read -r
 
-  if ! [ -f "${HOME}/.Brewfile" ]; then
+  if [ -f "${HOME}/.Brewfile" ]; then
     brew bundle check --global || brew bundle --global
     success "Installed from Brewfile"
   else
