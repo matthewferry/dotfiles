@@ -1,9 +1,0 @@
-{
-    "window.autoDetectColorScheme": true,
-    "workbench.preferredLightColorTheme": "GitHub Light Default",
-    "workbench.preferredDarkColorTheme": "GitHub Dark Dimmed",
-    "workbench.colorTheme": "GitHub Light Default",
-    "terminal.integrated.shell.linux": "/bin/zsh",
-    "terminal.integrated.shell.osx": "/bin/zsh",
-    "editor.inlineSuggest.enabled": true,
-}
