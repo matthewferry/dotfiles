@@ -5,7 +5,6 @@ brew "git"
 brew "mas"
 brew "nodenv"
 brew "openjdk"
-brew "tmux"
 
 # Install apps
 cask "principle"
