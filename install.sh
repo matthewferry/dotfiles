@@ -15,7 +15,7 @@ info() {
 }
 
 success() {
-  printf "\r\e[01;32m✔︎ \e[39m$1\e[0m \n"
+  printf "\r\e[01;32m✔︎ \e[39m$1\e[0m \n\n"
 }
 
 question() {
