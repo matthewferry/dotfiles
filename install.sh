@@ -15,7 +15,7 @@ info() {
 }
 
 success() {
-  printf "\r\e[01;32m✔︎ \e[39m$1\e[0m \n\n"
+  printf "\r\e[01;32m✔︎ \e[39m$1\e[0m \n"
 }
 
 question() {
@@ -29,7 +29,7 @@ install_brew() {
 
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    success "Homebrew installed"
+    success "Homebrew installed \n"
   fi
 }
 install_brew
@@ -61,7 +61,7 @@ configure_git() {
   printf "protocol=https\\nhost=github.com\\n" | git credential reject
   printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
     "${GITHUB_USERNAME}" "${GITHUB_TOKEN}" | git credential approve
-  success "Git configured"
+  success "Git configured \n"
 }
 configure_git
 
@@ -86,7 +86,7 @@ configure_dotfiles() {
     fi
   done
 
-  success "Dotfiles configured"
+  success "Dotfiles configured \n"
 }
 configure_dotfiles
 
@@ -104,9 +104,9 @@ bundle_install() {
 
   if [ -f "${HOME}/.Brewfile" ]; then
     brew bundle check --global || brew bundle --global
-    success "Installed from Brewfile"
+    success "Installed from Brewfile \n"
   else
-    info "No Brewfile found"
+    info "No Brewfile found \n"
   fi
 }
 bundle_install
@@ -117,7 +117,7 @@ if [ -n "$MACOS" ]; then
 
     source "${HOME}/.dotfiles/.macos"
 
-    success "macOS defaults set"
+    success "macOS defaults set \n"
 
     # Restart affected apps
     for APP in "Dock" "Finder" "Safari"; do
@@ -127,7 +127,7 @@ if [ -n "$MACOS" ]; then
   setup_macOS_preferences
 fi
 
-success "Install complete"
+success "Install complete \n"
 
 # Restart for some system changes to take effect
 info "Some of these changes require you to restart"
