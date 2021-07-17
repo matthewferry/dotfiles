@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e
+shopt -s nocasematch
 
 # Check if macOS, else assume Linux
 if [ "$(uname -s)" == "Darwin" ]; then
@@ -22,6 +23,8 @@ question() {
   printf "\r\e[01;33m? \e[39m$1\e[0m"
 }
 
+info "Let’s get your dotfiles set up…\n"
+
 # Install Homebrew
 install_brew() {
   if ! command -v brew &> /dev/null; then
@@ -38,16 +41,16 @@ install_brew
 configure_git() {
   info "Configuring git…"
   question "Your full name:"
-  read -p ' ' -e GIT_NAME
+  read -p " " -e GIT_NAME
 
   question 'Your email:'
-  read -p ' ' -e GIT_EMAIL
+  read -p " " -e GIT_EMAIL
 
   question "Your GitHub username:"
-  read -p ' ' -e GITHUB_USERNAME
+  read -p " " -e GITHUB_USERNAME
 
   question "Your GitHub PAT for auth:"
-  read  -s -p ' ' -e GITHUB_TOKEN
+  read  -s -p " " -e GITHUB_TOKEN
   echo '\r'
 
   # Add configurations
@@ -64,7 +67,23 @@ configure_git() {
     "${GITHUB_USERNAME}" "${GITHUB_TOKEN}" | git credential approve
   success "Git configured \n"
 }
-configure_git
+
+CONFIG_GIT=1
+if [ -f "${HOME}/.gitconfig" ]; then
+  info "Found existing .gitconfig:"
+  git config --global --list | sed "s/^/  /"
+
+  question "Overwrite (y/n)"
+  read -p " " -e OVERWRITE
+  if ! [[ "${OVERWRITE}" =~ y[es]? ]]; then
+    unset CONFIG_GIT
+    success "Skipped git configuration \n"
+  fi
+fi
+
+if [ -n "${CONFIG_GIT}" ]; then
+  configure_git
+fi
 
 configure_dotfiles() {
   info "Configuring dotfiles…"
@@ -94,7 +113,7 @@ configure_dotfiles
 bundle_install() {
   info "Installing formulae, casks, and apps"
 
-  if ! [ -n "$MACOS" ]; then
+  if ! [ -n "${MACOS}" ]; then
     HOMEBREW_BUNDLE_CASK_SKIP=1
     HOMEBREW_BUNDLE_MAS_SKIP=1
   fi
@@ -112,29 +131,30 @@ bundle_install() {
 }
 bundle_install
 
-if [ -n "$MACOS" ]; then
+if [ -n "${MACOS}" ]; then
   setup_macOS_preferences() {
     info "Setting up macOS defaults"
 
     source "${HOME}/.dotfiles/.macos"
 
+    # # Restart affected apps
+    # for APP in "Dock" "Finder" "Safari"; do
+    #   killall "${APP}" > /dev/null 2>&1
+    # done
+
     success "macOS defaults set \n"
 
-    # Restart affected apps
-    for APP in "Dock" "Finder" "Safari"; do
-      killall "${APP}" > /dev/null 2>&1
-    done
   }
   setup_macOS_preferences
 fi
 
-success "Install complete \n"
+success "Installation complete. Your dotfiles are now configured!"
 
 # Restart for some system changes to take effect
-info "Some of these changes require you to restart"
+info "Next steps: some of these changes require you to restart your computer"
 question "Restart now? (y/n)"
-read -p ' ' -e RESTART
-shopt -s nocasematch
+read -p " " -e RESTART
+
 if [[ "${RESTART}" =~ y[es]? ]]; then
   for i in {03..01}; do
     echo -en "\rRestarting in $i..."
