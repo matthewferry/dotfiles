@@ -150,6 +150,7 @@ if ! [ -n "${CODESPACES}" ]; then
   fi
 else
   echo ${HOME}
+  pwd
 fi
 
 success "Installation complete. Your dotfiles are now configured!"
