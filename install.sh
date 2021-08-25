@@ -37,53 +37,48 @@ install_brew() {
 
 # Configure git
 configure_git() {
-  CONFIG_GIT=1
   if [ -f "${HOME}/.gitconfig" ]; then
     info "Found existing .gitconfig:"
     git config --global --list | sed "s/^/  /"
 
     question "Overwrite (y/n)"
     read -p " " -e OVERWRITE
-    if ! [[ "${OVERWRITE}" =~ y[es]? ]]; then
-      unset CONFIG_GIT
+    
+    if [[ "${OVERWRITE}" =~ y[es]? ]]; then
+      info "Configuring git…"
+      question "Your full name:"
+      read -p " " -e GIT_NAME
+
+      question 'Your email:'
+      read -p " " -e GIT_EMAIL
+
+      question "Your GitHub username:"
+      read -p " " -e GITHUB_USERNAME
+
+      question "Your GitHub PAT for auth:"
+      read  -s -p " " -e GITHUB_TOKEN
+      echo '\r'
+
+      # Add configurations
+      git config --global user.name "${GIT_NAME}"
+      git config --global user.email "${GIT_EMAIL}"
+      git config --global github.user "${GITHUB_USERNAME}"
+      git config --global credential.helper "${GIT_CREDENTIAL}"
+      git config --global push.default simple
+      git config --global core.excludesfile "${HOME}/.gitignore"
+
+      # Auth and save token
+      printf "protocol=https\\nhost=github.com\\n" | git credential reject
+      printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
+        "${GITHUB_USERNAME}" "${GITHUB_TOKEN}" | git credential approve
+      success "Git configured \n"
+    else
       success "Skipped git configuration \n"
     fi
   fi
-
-  if [ -n "${CONFIG_GIT}" ]; then
-    info "Configuring git…"
-    question "Your full name:"
-    read -p " " -e GIT_NAME
-
-    question 'Your email:'
-    read -p " " -e GIT_EMAIL
-
-    question "Your GitHub username:"
-    read -p " " -e GITHUB_USERNAME
-
-    question "Your GitHub PAT for auth:"
-    read  -s -p " " -e GITHUB_TOKEN
-    echo '\r'
-
-    # Add configurations
-    git config --global user.name "${GIT_NAME}"
-    git config --global user.email "${GIT_EMAIL}"
-    git config --global github.user "${GITHUB_USERNAME}"
-    git config --global credential.helper "${GIT_CREDENTIAL}"
-    git config --global push.default simple
-    git config --global core.excludesfile "${HOME}/.gitignore"
-
-    # Auth and save token
-    printf "protocol=https\\nhost=github.com\\n" | git credential reject
-    printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
-      "${GITHUB_USERNAME}" "${GITHUB_TOKEN}" | git credential approve
-    success "Git configured \n"
-  fi
 }
 
-configure_dotfiles() {
-  info "Configuring dotfiles…"
-
+clone_dotfiles() {
   if ! [ -d "${HOME}/.dotfiles" ]; then
     info "Cloning dotfiles repository…"
     git clone https://github.com/${GITHUB_USERNAME}/dotfiles ~/.dotfiles
@@ -92,17 +87,19 @@ configure_dotfiles() {
     cd ~/.dotfiles
     git pull --rebase --autostash --quiet
   fi
+}
 
+link_dotfiles() {
   info "Symlinking dotfiles"
 
   for LINK in Brewfile zshrc gitignore; do
     if ! [ -f "${HOME}/.${LINK}" ]; then
-      ln -s "${HOME}/.dotfiles/.${LINK}" "${HOME}/.${LINK}"
+      ln -s "./.${LINK}" "${HOME}/.${LINK}"
       success "Symlinked ${LINK} to ${HOME}"
     fi
   done
 
-  success "Dotfiles configured \n"
+  success "Dotfiles linked \n"
 }
 
 bundle_install() {
@@ -130,27 +127,25 @@ setup_macOS_preferences() {
 
   source "${HOME}/.dotfiles/.macos"
 
-  # # Restart affected apps
-  # for APP in "Dock" "Finder" "Safari"; do
-  #   killall "${APP}" > /dev/null 2>&1
-  # done
-
   success "macOS defaults set \n"
 }
 
+# If it's not Codespaces, do all the things
 if ! [ -n "${CODESPACES}" ]; then
   shopt -s nocasematch
   install_brew
   configure_git
   bundle_install
-  configure_dotfiles
-  
-  if [ -n "${MACOS}" ]; then
-    setup_macOS_preferences
-  fi
-else
-  echo ${HOME}
-  pwd
+  clone_dotfiles
+fi
+
+# Link dotfiles
+pwd
+link_dotfiles
+
+# If it's a mac, setup the macOS preferences and system settings
+if [ -n "${MACOS}" ]; then
+  setup_macOS_preferences
 fi
 
 success "Installation complete. Your dotfiles are now configured! \n"
