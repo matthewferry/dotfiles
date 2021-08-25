@@ -28,9 +28,7 @@ info "Let’s get your dotfiles set up…\n"
 install_brew() {
   if ! command -v brew &> /dev/null; then
     info "Installing Homebrew…"
-
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
     success "Homebrew installed \n"
   else
     info "Homebrew already installed. Updating…"
@@ -38,6 +36,7 @@ install_brew() {
     success "Homebrew updated \n"
   fi
 }
+install_brew
 
 # Configure git
 configure_git() {
@@ -81,30 +80,39 @@ configure_git() {
     fi
   fi
 }
+configure_git
 
-clone_dotfiles() {
+configure_dotfiles() {
+  info "Configuring dotfiles"
+
   if ! [ -d "${HOME}/.dotfiles" ]; then
     info "Cloning dotfiles repository…"
-    git clone https://github.com/${GITHUB_USERNAME}/dotfiles ~/.dotfiles
+
+    # Get GitHub username in case where gitconfig is skipped
+    if ! [ -n "${GITHUB_USERNAME}" ]; then
+      question "Type your GitHub username:"
+      read -p " " -e GITHUB_USERNAME
+    fi
+
+    git clone https://github.com/${GITHUB_USERNAME}/dotfiles ${HOME}/.dotfiles
   else
     info "Updating dotfiles repository…"
     cd ~/.dotfiles
     git pull --rebase --autostash --quiet
   fi
-}
 
-link_dotfiles() {
   info "Symlinking dotfiles"
 
   for LINK in Brewfile zshrc gitignore; do
     if ! [ -f "${HOME}/.${LINK}" ]; then
-      ln -sf "./.${LINK}" "${HOME}/.${LINK}"
+      ln -s "${HOME}/.dotfiles/.${LINK}" "${HOME}/.${LINK}"
       success "Symlinked ${LINK} to ${HOME}"
     fi
   done
 
-  success "Dotfiles linked \n"
+  success "Dotfiles configured \n"
 }
+configure_dotfiles
 
 bundle_install() {
   info "Installing formulae, casks, and apps"
@@ -115,7 +123,7 @@ bundle_install() {
   fi
 
   info "Make sure you're logged into the App Store"
-  echo 'Press any key to continue'
+  echo 'Once logged in, press any key to continue'
   read -r
 
   if [ -f "${HOME}/.Brewfile" ]; then
@@ -125,31 +133,15 @@ bundle_install() {
     info "No Brewfile found \n"
   fi
 }
+bundle_install
 
-setup_macOS_preferences() {
-  info "Setting up macOS defaults"
-
-  source "${HOME}/.dotfiles/.macos"
-
-  success "macOS defaults set \n"
-}
-
-# If it's not Codespaces, do all the things
-if ! [ -n "${CODESPACES}" ]; then
-  shopt -s nocasematch
-  install_brew
-  configure_git
-  bundle_install
-  clone_dotfiles
-fi
-
-# Link dotfiles
-pwd
-link_dotfiles
-
-# If it's a mac, setup the macOS preferences and system settings
 if [ -n "${MACOS}" ]; then
-  setup_macOS_preferences
+  configure_macOS_preferences() {
+    info "Configuring macOS defaults"
+    source "${HOME}/.dotfiles/.macos"
+    success "macOS defaults configured \n"
+  }
+  configure_macOS_preferences
 fi
 
 success "Installation complete. Your dotfiles are now configured! \n"
@@ -169,4 +161,3 @@ if [ -n "${MACOS}" ]; then
     sudo shutdown -r now
   fi
 fi
-
