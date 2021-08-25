@@ -99,6 +99,7 @@ configure_dotfiles() {
     info "Updating dotfiles repository…"
     cd ~/.dotfiles
     git pull --rebase --autostash --quiet
+    git checkout main --quiet
   fi
 
   info "Symlinking dotfiles"
