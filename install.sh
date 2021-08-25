@@ -105,7 +105,7 @@ configure_dotfiles() {
 
   for LINK in Brewfile zshrc gitignore; do
     if ! [ -f "${HOME}/.${LINK}" ]; then
-      ln -s "${HOME}/.dotfiles/.${LINK}" "${HOME}/.${LINK}"
+      ln -sf "${HOME}/.dotfiles/.${LINK}" "${HOME}/.${LINK}"
       success "Symlinked ${LINK} to ${HOME}"
     fi
   done
