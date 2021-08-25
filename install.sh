@@ -35,55 +35,52 @@ install_brew() {
     success "Homebrew installed \n"
   fi
 }
-install_brew
 
 # Configure git
 configure_git() {
-  info "Configuring git…"
-  question "Your full name:"
-  read -p " " -e GIT_NAME
+  CONFIG_GIT=1
+  if [ -f "${HOME}/.gitconfig" ]; then
+    info "Found existing .gitconfig:"
+    git config --global --list | sed "s/^/  /"
 
-  question 'Your email:'
-  read -p " " -e GIT_EMAIL
-
-  question "Your GitHub username:"
-  read -p " " -e GITHUB_USERNAME
-
-  question "Your GitHub PAT for auth:"
-  read  -s -p " " -e GITHUB_TOKEN
-  echo '\r'
-
-  # Add configurations
-  git config --global user.name "${GIT_NAME}"
-  git config --global user.email "${GIT_EMAIL}"
-  git config --global github.user "${GITHUB_USERNAME}"
-  git config --global credential.helper "${GIT_CREDENTIAL}"
-  git config --global push.default simple
-  git config --global core.excludesfile "${HOME}/.gitignore"
-
-  # Auth and save token
-  printf "protocol=https\\nhost=github.com\\n" | git credential reject
-  printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
-    "${GITHUB_USERNAME}" "${GITHUB_TOKEN}" | git credential approve
-  success "Git configured \n"
-}
-
-CONFIG_GIT=1
-if [ -f "${HOME}/.gitconfig" ]; then
-  info "Found existing .gitconfig:"
-  git config --global --list | sed "s/^/  /"
-
-  question "Overwrite (y/n)"
-  read -p " " -e OVERWRITE
-  if ! [[ "${OVERWRITE}" =~ y[es]? ]]; then
-    unset CONFIG_GIT
-    success "Skipped git configuration \n"
+    question "Overwrite (y/n)"
+    read -p " " -e OVERWRITE
+    if ! [[ "${OVERWRITE}" =~ y[es]? ]]; then
+      unset CONFIG_GIT
+      success "Skipped git configuration \n"
+    fi
   fi
-fi
 
-if [ -n "${CONFIG_GIT}" ]; then
-  configure_git
-fi
+  if [ -n "${CONFIG_GIT}" ]; then
+    info "Configuring git…"
+    question "Your full name:"
+    read -p " " -e GIT_NAME
+
+    question 'Your email:'
+    read -p " " -e GIT_EMAIL
+
+    question "Your GitHub username:"
+    read -p " " -e GITHUB_USERNAME
+
+    question "Your GitHub PAT for auth:"
+    read  -s -p " " -e GITHUB_TOKEN
+    echo '\r'
+
+    # Add configurations
+    git config --global user.name "${GIT_NAME}"
+    git config --global user.email "${GIT_EMAIL}"
+    git config --global github.user "${GITHUB_USERNAME}"
+    git config --global credential.helper "${GIT_CREDENTIAL}"
+    git config --global push.default simple
+    git config --global core.excludesfile "${HOME}/.gitignore"
+
+    # Auth and save token
+    printf "protocol=https\\nhost=github.com\\n" | git credential reject
+    printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
+      "${GITHUB_USERNAME}" "${GITHUB_TOKEN}" | git credential approve
+    success "Git configured \n"
+  fi
+}
 
 configure_dotfiles() {
   info "Configuring dotfiles…"
@@ -108,7 +105,6 @@ configure_dotfiles() {
 
   success "Dotfiles configured \n"
 }
-configure_dotfiles
 
 bundle_install() {
   info "Installing formulae, casks, and apps"
@@ -129,7 +125,14 @@ bundle_install() {
     info "No Brewfile found \n"
   fi
 }
-bundle_install
+
+if ! [ -n "${$CODESPACES}" ]; then
+  install_brew
+  configure_git
+  bundle_install
+fi
+
+configure_dotfiles
 
 if [ -n "${MACOS}" ]; then
   setup_macOS_preferences() {
@@ -150,16 +153,19 @@ fi
 
 success "Installation complete. Your dotfiles are now configured!"
 
-# Restart for some system changes to take effect
-info "Next steps: some of these changes require you to restart your computer"
-question "Restart now? (y/n)"
-read -p " " -e RESTART
+# Some macOS system changes require restart for changes to take effect
+if [ -n "${MACOS}" ]; then
+  info "Next steps: some of these changes require you to restart your computer"
+  question "Restart now? (y/n)"
+  read -p " " -e RESTART
 
-if [[ "${RESTART}" =~ y[es]? ]]; then
-  for i in {03..01}; do
-    echo -en "\rRestarting in $i..."
-    sleep 1
-  done
-  echo ''
-  sudo shutdown -r now
+  if [[ "${RESTART}" =~ y[es]? ]]; then
+    for i in {03..01}; do
+      echo -en "\rRestarting in $i..."
+      sleep 1
+    done
+    echo ''
+    sudo shutdown -r now
+  fi
 fi
+
