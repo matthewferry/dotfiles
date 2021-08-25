@@ -125,7 +125,7 @@ bundle_install() {
   fi
 }
 
-if ! [ -n "${$CODESPACES}" ]; then
+if ! [ -n "${CODESPACES}" ]; then
   shopt -s nocasematch
   install_brew
   configure_git
