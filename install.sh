@@ -1,6 +1,5 @@
 #!/bin/sh
 set -e
-shopt -s nocasematch
 
 # Check if macOS, else assume Linux
 if [ "$(uname -s)" == "Darwin" ]; then
@@ -127,6 +126,7 @@ bundle_install() {
 }
 
 if ! [ -n "${$CODESPACES}" ]; then
+  shopt -s nocasematch
   install_brew
   configure_git
   bundle_install
