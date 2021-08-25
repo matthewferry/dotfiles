@@ -1,10 +1,8 @@
 # Install formulae
-brew "clojure"
 brew "gh"
 brew "git"
 brew "mas"
 brew "nodenv"
-brew "openjdk"
 
 # Install apps
 cask "principle"
