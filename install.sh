@@ -32,6 +32,10 @@ install_brew() {
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
     success "Homebrew installed \n"
+  else
+    info "Homebrew already installed. Updating…"
+    brew update
+    success "Homebrew updated \n"
   fi
 }
 
