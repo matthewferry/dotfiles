@@ -139,7 +139,7 @@ bundle_install
 if [ -n "${MACOS}" ]; then
   configure_macOS_preferences() {
     info "Configuring macOS defaults"
-    source "${HOME}/.dotfiles/.macos"
+    source "${HOME}/.dotfiles/macos.sh"
     success "macOS defaults configured \n"
   }
   configure_macOS_preferences
