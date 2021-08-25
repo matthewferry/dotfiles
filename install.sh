@@ -125,30 +125,31 @@ bundle_install() {
   fi
 }
 
+setup_macOS_preferences() {
+  info "Setting up macOS defaults"
+
+  source "${HOME}/.dotfiles/.macos"
+
+  # # Restart affected apps
+  # for APP in "Dock" "Finder" "Safari"; do
+  #   killall "${APP}" > /dev/null 2>&1
+  # done
+
+  success "macOS defaults set \n"
+}
+
 if ! [ -n "${CODESPACES}" ]; then
   shopt -s nocasematch
   install_brew
   configure_git
   bundle_install
-fi
-
-configure_dotfiles
-
-if [ -n "${MACOS}" ]; then
-  setup_macOS_preferences() {
-    info "Setting up macOS defaults"
-
-    source "${HOME}/.dotfiles/.macos"
-
-    # # Restart affected apps
-    # for APP in "Dock" "Finder" "Safari"; do
-    #   killall "${APP}" > /dev/null 2>&1
-    # done
-
-    success "macOS defaults set \n"
-
-  }
-  setup_macOS_preferences
+  configure_dotfiles
+  
+  if [ -n "${MACOS}" ]; then
+    setup_macOS_preferences
+  fi
+else
+  echo ${HOME}
 fi
 
 success "Installation complete. Your dotfiles are now configured!"
