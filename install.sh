@@ -2,7 +2,7 @@
 set -e
 
 # Check if macOS, else assume Linux
-if [ "$(uname -s)" == "Darwin" ]; then
+if [ "$(uname -s)" = "Darwin" ]; then
   MACOS=1
   GIT_CREDENTIAL="osxkeychain"
 else
