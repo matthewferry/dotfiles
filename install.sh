@@ -97,7 +97,7 @@ configure_dotfiles() {
     git clone https://github.com/${GITHUB_USERNAME}/dotfiles ${HOME}/.dotfiles
   else
     info "Updating dotfiles repository…"
-    cd ~/.dotfiles
+    cd ${HOME}/.dotfiles
     git pull --rebase --autostash --quiet
     git checkout main --quiet
   fi
