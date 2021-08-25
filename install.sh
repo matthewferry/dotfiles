@@ -95,7 +95,7 @@ clone_dotfiles() {
 
 link_dotfiles() {
   info "Symlinking dotfiles"
-
+  
   for LINK in Brewfile zshrc gitignore; do
     if ! [ -f "${HOME}/.${LINK}" ]; then
       ln -sf "./.${LINK}" "${HOME}/.${LINK}"
@@ -141,10 +141,11 @@ if ! [ -n "${CODESPACES}" ]; then
   configure_git
   bundle_install
   clone_dotfiles
+else
+  rm ${HOME}/.zshrc
 fi
 
 # Link dotfiles
-pwd
 link_dotfiles
 
 # If it's a mac, setup the macOS preferences and system settings
