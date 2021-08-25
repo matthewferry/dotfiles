@@ -1,8 +1,8 @@
 # Load Nodenv
-eval "$(nodenv init -)"
+# eval "$(nodenv init -)"
 
 # Ensure GPG passphrase shows
-export GPG_TTY=$(tty)
+# export GPG_TTY=$(tty)
 
 # Completion
 autoload -Uz compinit
