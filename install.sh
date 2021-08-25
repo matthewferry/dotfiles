@@ -90,7 +90,7 @@ configure_dotfiles() {
   else
     info "Updating dotfiles repository…"
     cd ~/.dotfiles
-    git pull --rebase --autostash
+    git pull --rebase --autostash --quiet
   fi
 
   info "Symlinking dotfiles"
@@ -153,7 +153,7 @@ else
   pwd
 fi
 
-success "Installation complete. Your dotfiles are now configured!"
+success "Installation complete. Your dotfiles are now configured! \n"
 
 # Some macOS system changes require restart for changes to take effect
 if [ -n "${MACOS}" ]; then
