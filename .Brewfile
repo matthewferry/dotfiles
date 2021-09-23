@@ -2,7 +2,6 @@
 brew "gh"
 brew "git"
 brew "mas"
-brew "nodenv"
 
 # Install apps
 cask "principle"
@@ -33,5 +32,3 @@ mas "Logic Pro", id: 634148309
 mas "MainStage", id: 634159523
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
-# mas "Sprinkles", id: 1500209074
-# mas "Xcode", id: 497799835
