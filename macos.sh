@@ -12,27 +12,27 @@ defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool false
 
 # Finder > Preferences > General
 # Show $HOME when opening new Finder windows
-defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}"
+# defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}"
 
 # Finder > Preferences > Sidebar
 # Show these items in Finder sidebar
-defaults write com.apple.finder ShowRecentTags -bool false
+# defaults write com.apple.finder ShowRecentTags -bool false
 # defaults write com.apple.finder SidebarPlacesSectionDisclosedState -bool true
-defaults write com.apple.finder SidebarShowingSignedIntoiCloud -bool true
-defaults write com.apple.finder SidebarShowingiCloudDesktop -bool false
+# defaults write com.apple.finder SidebarShowingSignedIntoiCloud -bool true
+# defaults write com.apple.finder SidebarShowingiCloudDesktop -bool false
 
 # Finder > Show view options
 # Always default to column view
-defaults write com.apple.Finder FXPreferredViewStyle -string "clmv"
+# defaults write com.apple.Finder FXPreferredViewStyle -string "clmv"
 
 # Finder > Show view options
 # Arrange by kind
-defaults write com.apple.Finder FXArrangeGroupViewBy -string "Kind"
-/usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy kind" ~/Library/Preferences/com.apple.finder.plist
+# defaults write com.apple.Finder FXArrangeGroupViewBy -string "Kind"
+# /usr/libexec/PlistBuddy -c "Set :StandardViewSettings:IconViewSettings:arrangeBy kind" ~/Library/Preferences/com.apple.finder.plist
 
 # Safari > Disable Java
-defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool false
-defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabledForLocalFiles -bool false
+# defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabled -bool false
+# defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2JavaEnabledForLocalFiles -bool false
 
 # Safari > View > Hide/Show Favorites Bar
 # Hides Safari’s favorites/bookmarks bar by default
@@ -44,14 +44,14 @@ defaults write com.apple.Safari.SandboxBroker ShowDevelopMenu -bool true
 
 # Safari > Preferences > Search > Search engine
 # Set the Safari default search engine to DuckDuckGo
-defaults write -g NSPreferredWebServices -string "{ NSWebServicesProviderWebSearch = { NSDefaultDisplayName = DuckDuckGo; NSProviderIdentifier = \"com.duckduckgo\"; }; }"
-defaults write com.apple.SafariServices SearchProviderIdentifierMigratedToSystemPreference -int 1
-defaults write com.apple.Safari SearchProviderIdentifier -string "com.duckduckgo"
-defaults write com.apple.SafariTechnologyPreview SearchProviderIdentifier -string "com.duckduckgo"
+# defaults write -g NSPreferredWebServices -string "{ NSWebServicesProviderWebSearch = { NSDefaultDisplayName = DuckDuckGo; NSProviderIdentifier = \"com.duckduckgo\"; }; }"
+# defaults write com.apple.SafariServices SearchProviderIdentifierMigratedToSystemPreference -int 1
+# defaults write com.apple.Safari SearchProviderIdentifier -string "com.duckduckgo"
+# defaults write com.apple.SafariTechnologyPreview SearchProviderIdentifier -string "com.duckduckgo"
 
 # System Preferences > General > Appearance
 # Set Appearance to "Auto"
-defaults write -g AppleInterfaceStyleSwitchesAutomatically -bool true
+# defaults write -g AppleInterfaceStyleSwitchesAutomatically -bool true
 
 # System Preferences > Language & Region > General > Time Format
 # Enforces 24 hour time across all timestamps and clocks
@@ -84,19 +84,19 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 # System Preferences > Security & Privacy > Firewall
 # Turn firewall on
-sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
-sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist 2>/dev/null
+# sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
+# sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist 2>/dev/null
 
 # System Preferences > Security & Privacy > Filevault
 # Enable FileVault and output the recovery key
-if ! fdesetup status | grep $Q -E "FileVault is (On|Off, but will be enabled after the next restart)." >/dev/null; then
-    sudo fdesetup enable -user "${USER}" | tee ~/Desktop/"FileVault Recovery Key.txt"
-fi
+# if ! fdesetup status | grep $Q -E "FileVault is (On|Off, but will be enabled after the next restart)." >/dev/null; then
+#     sudo fdesetup enable -user "${USER}" | tee ~/Desktop/"FileVault Recovery Key.txt"
+# fi
 
 
 # Screencapture > Options > Save to…
 # Changes default location for screencaptures to ~/Documents
-defaults write com.apple.screencapture location -string "${HOME}/Documents/"
+defaults write com.apple.screencapture location -string "${HOME}/Documents/Screenshots/"
 
 # Terminal > Preferences > Profiles
 # Set default theme to my modified version of Basic with system colors for auto light/dark mode
