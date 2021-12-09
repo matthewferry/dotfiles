@@ -40,7 +40,7 @@ defaults write com.apple.Safari ShowFavoritesBar -bool false
 
 # Safari > Preferences > Advanced
 # Show Developer menu item for developer tools
-defaults write com.apple.Safari.SandboxBroker ShowDevelopMenu -bool true
+# defaults write com.apple.Safari.SandboxBroker ShowDevelopMenu -bool true
 
 # Safari > Preferences > Search > Search engine
 # Set the Safari default search engine to DuckDuckGo
