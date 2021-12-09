@@ -45,39 +45,42 @@ configure_git() {
     git config --global --list | sed "s/^/  /"
 
     question "Overwrite (y/n)"
-    read -p " " -e OVERWRITE
-    
-    if [[ "${OVERWRITE}" =~ y[es]? ]]; then
-      info "Configuring git…"
-      question "Your full name:"
-      read -p " " -e GIT_NAME
+    read -p " " -e SETUP_GIT
+  else
+    question "Setup git? (y/n)"
+    read -p " " -e SETUP_GIT
+  fi
 
-      question 'Your email:'
-      read -p " " -e GIT_EMAIL
+  if [[ "${SETUP_GIT}" =~ y[es]? ]]; then
+    info "Configuring git…"
+    question "Your full name:"
+    read -p " " -e GIT_NAME
 
-      question "Your GitHub username:"
-      read -p " " -e GITHUB_USERNAME
+    question 'Your email:'
+    read -p " " -e GIT_EMAIL
 
-      question "Your GitHub PAT for auth:"
-      read  -s -p " " -e GITHUB_TOKEN
-      echo '\r'
+    question "Your GitHub username:"
+    read -p " " -e GITHUB_USERNAME
 
-      # Add configurations
-      git config --global user.name "${GIT_NAME}"
-      git config --global user.email "${GIT_EMAIL}"
-      git config --global github.user "${GITHUB_USERNAME}"
-      git config --global credential.helper "${GIT_CREDENTIAL}"
-      git config --global push.default simple
-      git config --global core.excludesfile "${HOME}/.gitignore"
+    question "Your GitHub PAT for auth:"
+    read  -s -p " " -e GITHUB_TOKEN
+    echo '\r'
 
-      # Auth and save token
-      printf "protocol=https\\nhost=github.com\\n" | git credential reject
-      printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
-        "${GITHUB_USERNAME}" "${GITHUB_TOKEN}" | git credential approve
-      success "Git configured \n"
-    else
-      success "Skipped git configuration \n"
-    fi
+    # Add configurations
+    git config --global user.name "${GIT_NAME}"
+    git config --global user.email "${GIT_EMAIL}"
+    git config --global github.user "${GITHUB_USERNAME}"
+    git config --global credential.helper "${GIT_CREDENTIAL}"
+    git config --global push.default simple
+    git config --global core.excludesfile "${HOME}/.gitignore"
+
+    # Auth and save token
+    printf "protocol=https\\nhost=github.com\\n" | git credential reject
+    printf "protocol=https\\nhost=github.com\\nusername=%s\\npassword=%s\\n" \
+      "${GITHUB_USERNAME}" "${GITHUB_TOKEN}" | git credential approve
+    success "Git configured \n"
+  else
+    success "Skipped git configuration \n"
   fi
 }
 configure_git
