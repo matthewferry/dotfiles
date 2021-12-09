@@ -12,7 +12,7 @@ defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool false
 
 # Finder > Preferences > General
 # Show $HOME when opening new Finder windows
-# defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}"
 
 # Finder > Preferences > Sidebar
 # Show these items in Finder sidebar
@@ -23,7 +23,7 @@ defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool false
 
 # Finder > Show view options
 # Always default to column view
-# defaults write com.apple.Finder FXPreferredViewStyle -string "clmv"
+defaults write com.apple.Finder FXPreferredViewStyle -string "clmv"
 
 # Finder > Show view options
 # Arrange by kind
@@ -84,8 +84,8 @@ defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 # System Preferences > Security & Privacy > Firewall
 # Turn firewall on
-# sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
-# sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist 2>/dev/null
+sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 1
+sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist 2>/dev/null
 
 # System Preferences > Security & Privacy > Filevault
 # Enable FileVault and output the recovery key
