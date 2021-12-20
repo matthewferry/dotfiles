@@ -32,3 +32,4 @@ mas "Logic Pro", id: 634148309
 mas "MainStage", id: 634159523
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
+mas "Speediness", id: 1596706466
