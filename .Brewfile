@@ -4,7 +4,6 @@ brew "git"
 brew "mas"
 
 # Install apps
-cask "principle"
 cask "1password"
 cask "exodus"
 cask "figma"
