@@ -32,3 +32,4 @@ mas "MainStage", id: 634159523
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Speediness", id: 1596706466
+mas "1Password for Safari", id: 1569813296
