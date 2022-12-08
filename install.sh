@@ -141,9 +141,16 @@ bundle_install
 
 if [ -n "${MACOS}" ]; then
   configure_macOS_preferences() {
-    info "Configuring macOS defaults"
-    source "${HOME}/.dotfiles/macos.sh"
-    success "macOS defaults configured \n"
+    question "Setup MacOS preferences? (y/n)"
+    read -p " " -e SETUP_MACOS
+
+    if [[ "${SETUP_MACOS}" =~ y[es]? ]]; then
+      info "Configuring macOS defaults"
+      source "${HOME}/.dotfiles/macos.sh"
+      success "macOS defaults configured \n"
+    else
+      success "Skipped macOS preference setup \n"
+    fi
   }
   configure_macOS_preferences
 fi
