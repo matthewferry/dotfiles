@@ -23,7 +23,9 @@ cask "visual-studio-code"
 cask "zoom"
 
 # Install App Store stuffs
+mas "1Password for Safari", id: 1569813296
 mas "AdBlock", id: 1402042596
+mas "Amazing AI", id: 1660147028
 mas "Binaural", id: 946812450
 mas "Contrast", id: 1254981365
 mas "Gifski", id: 1351639930
@@ -33,4 +35,3 @@ mas "MainStage", id: 634159523
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "Speediness", id: 1596706466
-mas "1Password for Safari", id: 1569813296
