@@ -30,6 +30,9 @@ install_brew() {
     info "Installing Homebrew…"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     success "Homebrew installed \n"
+    info "Setting auto updates and upgrades to casks every 24hrs…"
+    brew autoupdate start --upgrade --greedy
+    success "Homebrew will now automatically upgrade packages and casks \n"
   else
     info "Homebrew already installed. Updating…"
     brew update
