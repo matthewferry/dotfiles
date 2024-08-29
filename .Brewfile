@@ -5,6 +5,7 @@ brew "mas"
 
 # Install apps
 cask "1password"
+cask "arc"
 cask "exodus"
 cask "figma"
 cask "flux"
@@ -22,7 +23,6 @@ cask "zoom"
 # Install App Store stuffs
 mas "1Password for Safari", id: 1569813296
 mas "AdBlock", id: 1402042596
-mas "Amazing AI", id: 1660147028
 mas "Binaural", id: 946812450
 mas "Contrast", id: 1254981365
 mas "Gifski", id: 1351639930
